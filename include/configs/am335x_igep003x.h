@@ -29,15 +29,7 @@
 	"bootfile=zImage\0" \
 	"console=ttyO0,115200n8\0" \
 	"mmcdev=0\0" \
-	"if -e mmc 0:1 two; then " \
-		"mmcroot=/dev/mmcblk0p2 rw; " \
-	"fi;" \
-	"if -e mmc 0:1 three; then " \
-		"mmcroot=/dev/mmcblk0p3 rw; " \
-	"fi;" \
-	"if -e mmc 0:1 one; then " \
-		"mmcroot=/dev/mmcblk0p1 rw; " \
-	"fi;" \
+	"mmcroot=/dev/mmcblk0p2 rw\0" \
 	"mmcrootfstype=ext4 rootwait\0" \
 	"mmcargs=setenv bootargs console=${console} " \
 		"${optargs} " \

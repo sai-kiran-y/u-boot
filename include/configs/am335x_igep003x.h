@@ -29,7 +29,15 @@
 	"bootfile=zImage\0" \
 	"console=ttyO0,115200n8\0" \
 	"mmcdev=0\0" \
-	"mmcroot=/dev/mmcblk0p2 rw\0" \
+	"if -e mmc 0:1 two; then " \
+		"mmcroot=/dev/mmcblk0p2 rw; " \
+	"fi;" \
+	"if -e mmc 0:1 three; then " \
+		"mmcroot=/dev/mmcblk0p3 rw; " \
+	"fi;" \
+	"if -e mmc 0:1 one; then " \
+		"mmcroot=/dev/mmcblk0p1 rw; " \
+	"fi;" \
 	"mmcrootfstype=ext4 rootwait\0" \
 	"mmcargs=setenv bootargs console=${console} " \
 		"${optargs} " \
@@ -40,6 +48,7 @@
 	"importbootenv=echo Importing environment from mmc ...; " \
 		"env import -t ${loadaddr} ${filesize}\0" \
 	"mmcload=load mmc ${mmcdev}:2 ${loadaddr} ${bootdir}/${bootfile}; " \
+		"echo mmcload===; " \
 		"load mmc ${mmcdev}:2 ${fdtaddr} ${bootdir}/${fdtfile}\0" \
 	"mmcboot=mmc dev ${mmcdev}; " \
 		"if mmc rescan; then " \

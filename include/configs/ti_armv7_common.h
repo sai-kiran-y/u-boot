@@ -250,35 +250,38 @@
 				"run bootscript;" \
 			"fi; " \
 			"echo Checking for: /boot/uEnv.txt ...;" \
-			"for i in 1 2 3 4 5 6 7 ; do " \
-				"setenv mmcpart ${i};" \
-				"setenv bootpart ${mmcdev}:${mmcpart};" \
-				"if test -e ${devtype} ${bootpart} /boot/uEnv.txt; then " \
-					"gpio set 55;" \
-					"load ${devtype} ${bootpart} ${loadaddr} /boot/uEnv.txt;" \
-					"env import -t ${loadaddr} ${filesize};" \
-					"echo Loaded environment from /boot/uEnv.txt;" \
-					"if test -n ${dtb}; then " \
-						"echo debug: [dtb=${dtb}] ... ;" \
-						"setenv fdtfile ${dtb};" \
-						"echo Using: dtb=${fdtfile} ...;" \
-					"fi;" \
-					"echo Checking if uname_r is set in /boot/uEnv.txt...;" \
-					"if test -n ${uname_r}; then " \
-						"gpio set 56; " \
-						"setenv oldroot /dev/mmcblk${mmcdev}p${mmcpart};" \
-						"echo Running uname_boot ...;" \
-						"run uname_boot;" \
-					"fi;" \
+			"if test -e ${devtype} 0:1 two; then " \
+				"setenv mmcpart 2;" \
+			"fi;" \
+			"setenv bootpart ${mmcdev}:${mmcpart};" \
+			"setenv uenv_part 0:1;" \
+			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \
+				"gpio set 55;" \
+				"load ${devtype} ${uenv_part} ${loadaddr} /uEnv.txt;" \
+				"env import -t ${loadaddr} ${filesize};" \
+				"echo Loaded environment from /uEnv.txt;" \
+				"if test -n ${dtb}; then " \
+					"echo debug: [dtb=${dtb}] ... ;" \
+					"setenv fdtfile ${dtb};" \
+					"echo Using: dtb=${fdtfile} ...;" \
 				"fi;" \
-			"done;" \
+				"echo Checking if uname_r is set in /boot/uEnv.txt...;" \
+				"if test -n ${uname_r}; then " \
+					"gpio set 56; " \
+					"setenv oldroot /dev/mmcblk${mmcdev}p${mmcpart};" \
+					"echo Running uname_boot ...;" \
+					"run uname_boot;" \
+				"fi;" \
+			"fi;" \
 		"fi;\0" \
 
 #define EEWIKI_UNAME_BOOT \
 	"uname_boot="\
 		"setenv bootdir /boot; " \
+		"echo ===uboot-2019===; " \
 		"setenv bootfile vmlinuz-${uname_r}; " \
 		"if test -e ${devtype} ${bootpart} ${bootdir}/${bootfile}; then " \
+			"echo EEWIKI_UNAME_BOOT bootpart=${bootpart};" \
 			"echo loading ${bootdir}/${bootfile} ...; "\
 			"run loadimage;" \
 			"setenv fdtdir /boot/dtbs/${uname_r}; " \

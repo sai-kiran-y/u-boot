@@ -253,6 +253,9 @@
 			"if test -e ${devtype} 0:1 two; then " \
 				"setenv mmcpart 2;" \
 			"fi;" \
+			"if test -e ${devtype} 0:1 three; then " \
+				"setenv mmcpart 3;" \
+			"fi;" \
 			"setenv bootpart ${mmcdev}:${mmcpart};" \
 			"setenv uenv_part 0:1;" \
 			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \
@@ -499,6 +502,7 @@
 					"echo debug: [bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}] ... ;" \
 					"bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}; " \
 				"fi;" \
+				"echo ===args_mmc_old: with rd===; " \
 				"run args_mmc_old;" \
 				"echo debug: [${bootargs}] ... ;" \
 				"echo debug: [bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}] ... ;" \
@@ -511,6 +515,7 @@
 					"bootz ${loadaddr} - ${fdtaddr}; " \
 				"fi;" \
 				"run args_mmc_old;" \
+				"echo ===args_mmc_old: without rd===; " \
 				"echo debug: [${bootargs}] ... ;" \
 				"echo debug: [bootz ${loadaddr} - ${fdtaddr}] ... ;" \
 				"bootz ${loadaddr} - ${fdtaddr}; " \

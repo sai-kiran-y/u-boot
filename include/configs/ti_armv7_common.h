@@ -222,7 +222,9 @@
 				"if run loadbootenv; then " \
 					"gpio set 55;" \
 					"echo Loaded environment from /uEnv.txt;" \
+					"echo ===oldroot={oldroot} Run importbootenv===;" \
 					"run importbootenv;" \
+					"echo ===oldroot={oldroot} After running importbootenv===;" \
 				"fi;" \
 				"echo Checking if uenvcmd is set ...;" \
 				"if test -n ${uenvcmd}; then " \
@@ -261,6 +263,7 @@
 			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \
 				"gpio set 55;" \
 				"load ${devtype} ${uenv_part} ${loadaddr} /uEnv.txt;" \
+				"echo ===oldroot={oldroot}===;" \
 				"env import -t ${loadaddr} ${filesize};" \
 				"echo Loaded environment from /uEnv.txt;" \
 				"if test -n ${dtb}; then " \
@@ -482,21 +485,25 @@
 			"fi;" \
 			"setenv rdfile initrd.img-${uname_r}; " \
 			"if test -e ${devtype} ${bootpart} ${bootdir}/${rdfile}; then " \
+				"echo ===1. initrd exists===; " \
 				"echo loading ${bootdir}/${rdfile} ...; "\
 				"run loadrd;" \
 				"if test -n ${netinstall_enable}; then " \
+					"echo ===running args_netinstall===" \
 					"run args_netinstall; run message;" \
 					"echo debug: [${bootargs}] ... ;" \
 					"echo debug: [bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}] ... ;" \
 					"bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}; " \
 				"fi;" \
 				"if test -n ${uenv_root}; then " \
+					"echo ===running args_uenv_root===" \
 					"run args_uenv_root;" \
 					"echo debug: [${bootargs}] ... ;" \
 					"echo debug: [bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}] ... ;" \
 					"bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}; " \
 				"fi;" \
 				"if test -n ${uuid}; then " \
+					"echo ===running args_mmc_uuid===" \
 					"run args_mmc_uuid;" \
 					"echo debug: [${bootargs}] ... ;" \
 					"echo debug: [bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}] ... ;" \
@@ -509,6 +516,7 @@
 				"bootz ${loadaddr} ${rdaddr}:${rdsize} ${fdtaddr}; " \
 			"else " \
 				"if test -n ${uenv_root}; then " \
+					"echo ===running args_uenv_root: no rd===" \
 					"run args_uenv_root;" \
 					"echo debug: [${bootargs}] ... ;" \
 					"echo debug: [bootz ${loadaddr} - ${fdtaddr}] ... ;" \

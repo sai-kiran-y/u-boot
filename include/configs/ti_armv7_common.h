@@ -294,8 +294,8 @@
 		"setenv bootdir /boot; " \
 		"echo ===uboot-2019===; " \
 		"setenv bootfile vmlinuz-${uname_r}; " \
-		"echo ===EEWIKI_UNAME_BOOT: devtype=${devtype} bootpart=${bootpart} bootdir=${bootdir} bootfile=${bootfile}" \
-		"echo ===checking for boot file===" \
+		"echo ===EEWIKI_UNAME_BOOT: devtype=${devtype} bootpart=${bootpart} bootdir=${bootdir} bootfile=${bootfile};" \
+		"echo ===checking for boot file===;" \
 		"if test -e ${devtype} ${bootpart} ${bootdir}/${bootfile}; then " \
 			"echo ===boot file exists===;" \
 			"echo loading ${bootdir}/${bootfile} ...; "\

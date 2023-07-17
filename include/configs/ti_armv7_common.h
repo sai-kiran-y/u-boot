@@ -211,6 +211,7 @@
 
 #define EEWIKI_BOOT \
 	"boot=${devtype} dev ${mmcdev}; " \
+		"mmcpart=2; " \
 		"if ${devtype} rescan; then " \
 			"gpio set 54;" \
 			"setenv bootpart ${mmcdev}:1; " \
@@ -222,9 +223,9 @@
 				"if run loadbootenv; then " \
 					"gpio set 55;" \
 					"echo Loaded environment from /uEnv.txt;" \
-					"echo ===oldroot={oldroot} Run importbootenv===;" \
+					"echo ===oldroot=${oldroot} Run importbootenv===;" \
 					"run importbootenv;" \
-					"echo ===oldroot={oldroot} After running importbootenv===;" \
+					"echo ===oldroot=${oldroot} After running importbootenv===;" \
 				"fi;" \
 				"echo Checking if uenvcmd is set ...;" \
 				"if test -n ${uenvcmd}; then " \
@@ -253,17 +254,19 @@
 			"fi; " \
 			"echo Checking for: /boot/uEnv.txt ...;" \
 			"if test -e ${devtype} 0:1 two; then " \
-				"setenv mmcpart 2;" \
+				"echo  ===two found===;" \
+				"mmcpart=2;" \ 
 			"fi;" \
 			"if test -e ${devtype} 0:1 three; then " \
-				"setenv mmcpart 3;" \
+				"echo ===three found===;" \
+				"mmcpart=3;" \ 
 			"fi;" \
 			"setenv bootpart ${mmcdev}:${mmcpart};" \
 			"setenv uenv_part 0:1;" \
 			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \
 				"gpio set 55;" \
 				"load ${devtype} ${uenv_part} ${loadaddr} /uEnv.txt;" \
-				"echo ===oldroot={oldroot}===;" \
+				"echo ===oldroot=${oldroot}===;" \
 				"env import -t ${loadaddr} ${filesize};" \
 				"echo Loaded environment from /uEnv.txt;" \
 				"if test -n ${dtb}; then " \

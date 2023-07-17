@@ -283,6 +283,7 @@
 					"gpio set 56; " \
 					"setenv oldroot /dev/mmcblk${mmcdev}p${mmcpart};" \
 					"echo Running uname_boot ...;" \
+					"echo ===Before running uname_boot, bootpart=${bootpart} mmcdev=${mmcdev} mmcpart=${mmcpart}===;" \
 					"run uname_boot;" \
 				"fi;" \
 			"fi;" \
@@ -293,8 +294,10 @@
 		"setenv bootdir /boot; " \
 		"echo ===uboot-2019===; " \
 		"setenv bootfile vmlinuz-${uname_r}; " \
+		"echo ===EEWIKI_UNAME_BOOT: devtype=${devtype} bootpart=${bootpart} bootdir=${bootdir} bootfile=${bootfile}" \
+		"echo ===checking for boot file===" \
 		"if test -e ${devtype} ${bootpart} ${bootdir}/${bootfile}; then " \
-			"echo EEWIKI_UNAME_BOOT bootpart=${bootpart};" \
+			"echo ===boot file exists===;" \
 			"echo loading ${bootdir}/${bootfile} ...; "\
 			"run loadimage;" \
 			"setenv fdtdir /boot/dtbs/${uname_r}; " \

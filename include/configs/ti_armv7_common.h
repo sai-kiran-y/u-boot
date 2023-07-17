@@ -211,11 +211,15 @@
 
 #define EEWIKI_BOOT \
 	"boot=${devtype} dev ${mmcdev}; " \
+		"echo ===EEWIKI_BOOT mmcdev=${mmcdev}  ===; " \
 		"mmcpart=2; " \
+		"echo ===EEWIKI_BOOT: mmcpart set to 2 ===; " \
 		"if ${devtype} rescan; then " \
 			"gpio set 54;" \
 			"setenv bootpart ${mmcdev}:1; " \
+			"echo ===EEWIKI_BOOT: bootpart=${bootpart}===; " \
 			"if test -e ${devtype} ${bootpart} /etc/fstab; then " \
+				"echo ===EEWIKI_BOOT: mmcpart set to 1 ===; " \
 				"setenv mmcpart 1;" \
 			"fi; " \
 			"echo Checking for: /uEnv.txt ...;" \
@@ -225,7 +229,7 @@
 					"echo Loaded environment from /uEnv.txt;" \
 					"echo ===oldroot=${oldroot} Run importbootenv===;" \
 					"run importbootenv;" \
-					"echo ===oldroot=${oldroot} After running importbootenv===;" \
+					"echo ===oldroot=${oldroot} mmcpart=${mmcpart}; bootpart=${bootpart}After running importbootenv===;" \
 				"fi;" \
 				"echo Checking if uenvcmd is set ...;" \
 				"if test -n ${uenvcmd}; then " \
@@ -255,12 +259,12 @@
 			"echo Checking for: /boot/uEnv.txt ...;" \
 			"if test -e ${devtype} 0:1 two; then " \
 				"echo  ===two found===;" \
-				"mmcpart=2;" \ 
+				"mmcpart=2;" \
 			"fi;" \
 			"if test -e ${devtype} 0:1 three; then " \
-				"echo ===three found===;" \
-				"mmcpart=3;" \ 
-			"fi;" \
+				"echo ===three found===" \ 
+				"mmcpart=3;" \
+			"fi;" \  
 			"setenv bootpart ${mmcdev}:${mmcpart};" \
 			"setenv uenv_part 0:1;" \
 			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \

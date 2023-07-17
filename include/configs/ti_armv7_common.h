@@ -262,9 +262,9 @@
 				"mmcpart=2;" \
 			"fi;" \
 			"if test -e ${devtype} 0:1 three; then " \
-				"echo ===three found===" \ 
+				"echo ===three found===" \
 				"mmcpart=3;" \
-			"fi;" \  
+				"fi;" \
 			"setenv bootpart ${mmcdev}:${mmcpart};" \
 			"setenv uenv_part 0:1;" \
 			"if test -e ${devtype} ${uenv_part} /uEnv.txt; then " \

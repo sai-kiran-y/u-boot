@@ -255,11 +255,11 @@
 			"echo Checking for: /boot/uEnv.txt ...;" \
 			"if test -e ${devtype} 0:1 two; then " \
 				"echo  ===two found===;" \
-				"mmcpart=2;" \ 
+				"mmcpart=2;" \
 			"fi;" \
 			"if test -e ${devtype} 0:1 three; then " \
 				"echo ===three found===;" \
-				"mmcpart=3;" \ 
+				"mmcpart=3;" \
 			"fi;" \
 			"setenv bootpart ${mmcdev}:${mmcpart};" \
 			"setenv uenv_part 0:1;" \
